@@ -10,7 +10,7 @@ interface Props {
 const Layout: FC<Props> = ({ children }) => {
   const isLoading = useSelector((state: RootState) => state.ui.loading);
   return (
-    <div className="bg-gray-300 min-h-screen flex justify-center items-center">
+    <div className="p-0 bg-gray-300 min-h-screen flex justify-center items-start md:p-8">
       {children}
       {isLoading ? <ModalLoader /> : null}
     </div>
