@@ -27,7 +27,6 @@
   <h3 align="center">Github-Repo-Explorer</h3>
 
   <p align="center">
-    An awesome README template to jumpstart your projects!
     <br />
     <a href="https://github.com/fmaulll/GithubRepoExplorer"><strong>Explore the docs »</strong></a>
     <br />
@@ -52,7 +51,6 @@ repositories (no limit on displayed repositories amount) for selected GitHub use
 This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
 
 * [![React][React.js]][React-url]
-* [![Tailwind][Tailwindcss.com]][Tailwind-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
