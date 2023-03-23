@@ -6,6 +6,8 @@ import Card from "../components/Card";
 import RepoAccordion from "../components/RepoAccordion";
 import Search from "../components/Search";
 import { setIsLoading } from "../features/uiSlice";
+import { GithubUrl } from "../helper";
+import { useFormFieldElement } from "../hooks/useFormFieldElement";
 import { Users } from "../type";
 
 const Home = () => {
@@ -15,22 +17,22 @@ const Home = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    dispatch(setIsLoading());
+    const searchField = e.currentTarget[0];
+    useFormFieldElement(searchField);
+    setSearch(searchField.value);
+    dispatch(setIsLoading(true));
     try {
       const result = await axios.get(
-        `${import.meta.env.VITE_GITHUB_URL}/users?q=${search}`,
+        `${GithubUrl}/users?q=${searchField.value}`,
         {
           params: {
             per_page: 5,
-          },
-          headers: {
-            Authorization: import.meta.env.VITE_TOKEN,
           },
         }
       );
 
       if (result.status !== 200) {
-        dispatch(setIsLoading());
+        dispatch(setIsLoading(false));
         alert("Something went wrong!");
         return;
       }
@@ -44,33 +46,31 @@ const Home = () => {
       });
       setUsersData(arr);
 
-      dispatch(setIsLoading());
+      dispatch(setIsLoading(false));
     } catch (error) {
       alert(error);
+      dispatch(setIsLoading(false));
     }
-  };
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearch(e.target.value);
   };
 
   return (
     <Card>
       <form onSubmit={handleSubmit}>
-        <Search
-          onChange={handleChange}
-          className="mb-4"
-          placeholder="Enter username"
-        />
+        <Search className="mb-4" placeholder="Enter username" />
         <Button>Search</Button>
       </form>
+      <div className="mt-4 text-gray-500">
+        {search ? `Showing users for "${search}"` : null}
+      </div>
       {usersData.length > 0 ? (
-        <div>
+        <div className="mt-4 overflow-x-scroll">
           {usersData.map((item) => (
             <RepoAccordion key={item.id} data={item} />
           ))}
         </div>
-      ) : null}
+      ) : (
+        <div className="text-center mt-4">No Result</div>
+      )}
     </Card>
   );
 };
