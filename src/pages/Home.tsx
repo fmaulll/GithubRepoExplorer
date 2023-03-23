@@ -62,15 +62,18 @@ const Home = () => {
       <div className="mt-4 text-gray-500">
         {search ? `Showing users for "${search}"` : null}
       </div>
-      {usersData.length > 0 ? (
-        <div className="mt-4 overflow-x-scroll">
-          {usersData.map((item) => (
-            <RepoAccordion key={item.id} data={item} />
-          ))}
-        </div>
-      ) : (
-        <div className="text-center mt-4">No Result</div>
-      )}
+      <div className="h-[350px] overflow-y-scroll">
+        {usersData.length > 0 && (
+          <div className="mt-4">
+            {usersData.map((item) => (
+              <RepoAccordion key={item.id} data={item} />
+            ))}
+          </div>
+        )}
+        {usersData.length < 1 && search && (
+          <div className="text-center mt-4">No Result</div>
+        )}
+      </div>
     </Card>
   );
 };
